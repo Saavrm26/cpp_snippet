@@ -227,20 +227,99 @@ void DSU::union_sets(int a, int b) {
     if (Rank[a] == Rank[b])
         Rank[a]++;
 }
-vvld mat_mult(vvld &mat1,vvld &mat2){
-    int n1_r = mat1.size(),n1_c = mat1[0].size();
-    int n2_r = mat2.size(),n2_c = mat2[0].size();
-    if(n1_c != n2_r) return {{-1},{-1}};
-    vvld vec(n1_r,vld(n2_c));
-    ff(i,0,n1_r-1){
-        ff(j,0,n2_c-1){
-            ff(k,0,n2_c-1){
-                vec[i][j]+=mat1[i][k] * mat2[k][j];
+class mint {
+    ll a;
+
+  public:
+    mint() { this->a = 0; }
+    mint(ll a) { this->a = a; }
+    ll &operator()() { return a; }
+    mint operator=(ll x) {
+        this->a = x;
+        return *this;
+    }
+    mint operator%(ll mod) {
+        mint res = *this;
+        if (res.a > mod)
+            res.a = res.a % mod;
+        return res;
+    }
+    mint operator+(mint b) {
+        mint x = (*this) % mod;
+        mint y = (b) % mod;
+        mint z = (x() + y()) % mod;
+        return z = z % mod;
+    }
+    mint operator-(mint b) {
+        return (((*this) % mod)() - (b % mod)() + mod) % mod;
+    }
+    mint operator*(mint b) {
+        mint x = (*this) % mod;
+        mint y = (b % mod) % mod;
+        mint z = (x() * y());
+        return z = z % mod;
+    }
+    mint operator^(mint b){
+        mint x = binpow((*this)(), b(), mod);
+        return x;
+    }
+    mint operator/(mint b){
+        mint x = mod_inverse(b(), mod);
+        return x = (*this) * x;
+    }
+    mint operator+=(mint b) { return *this = (*this) + b; }
+    mint operator-=(mint b) { return *this = (*this) - b; }
+    mint operator*=(mint b) { return *this = (*this) * b; }
+    mint operator%=(ll b) { return *this = (*this) % b; }
+    mint operator/=(mint b) { return *this = (*this) / b; }
+};
+template<typename T>
+struct Matrix{
+    vector<vector<T>> a;
+    // multiplication of matrices
+    Matrix<T> operator *(Matrix<T> &vec){
+        auto b = vec.a;
+        int a_r = a.size(),a_c = a[0].size();
+        int b_r = b.size(),b_c = b[0].size();
+
+        Matrix<T> res{vector<vector<T>>(a_r,vector<T>(b_c))};
+        ff(i,0,a_r-1){
+            ff(j,0,b_c-1){
+                ff(k,0,b_c-1){
+                    res.a[i][j] += a[i][k] * b[k][j];
+                }
             }
         }
+        return res;
     }
-    return vec;
-}
+
+    // addition
+    Matrix<T> operator +(Matrix<T> &vec){
+        auto b = vec.a;
+        int a_r = a.size(),a_c = a[0].size();
+        Matrix<T> res{vector<vector<T>>(a_r,vector<T>(a_c))};
+        ff(i,0,a_r-1){
+            ff(j,0,a_c-1){
+                res.a[i][j] = a[i][j] + b[i][j];
+            }
+        }
+        return res;
+    }
+
+    // substraction
+    Matrix<T> operator -(Matrix<T> &vec){
+        auto b = vec.a;
+        int a_r = a.size(),a_c = a[0].size();
+        Matrix<T> res{vector<vector<T>>(a_r,vector<T>(a_c))};
+        ff(i,0,a_r-1){
+            ff(j,0,a_c-1){
+                res.a[i][j] = a[i][j] - b[i][j];
+            }
+        }
+        return res;
+    }
+
+};
 #define root idx
 #define lc 2*idx+1
 #define rc 2*idx+2
