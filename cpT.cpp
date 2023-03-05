@@ -110,7 +110,54 @@ ll mod_divide(ll a, ll b)
     else
         return mod_mult(inv,a);
 }
-// ll power_of_2(ll n,ll curr){ ll val = 1<<curr; if(n%val==0) return curr + power_of_2(n/val,curr+1); else{ if(n%2==0){ return 1+power_of_2(n/2,2); } return 0; } }
+class mint {
+    ll a;
+
+  public:
+    mint() { this->a = 0; }
+    mint(ll a) { this->a = a; }
+    ll &operator()() { return a; }
+    mint operator=(ll x) {
+        this->a = x;
+        return *this;
+    }
+    mint operator%(ll mod) {
+        mint res = *this;
+        if (res.a > mod)
+            res.a = res.a % mod;
+        return res;
+    }
+    mint operator+(mint b) {
+        mint x = (*this) % mod;
+        mint y = (b) % mod;
+        mint z = (x() + y()) % mod;
+        return z = z % mod;
+    }
+    mint operator-(mint b) {
+        return (((*this) % mod)() - (b % mod)() + mod) % mod;
+    }
+    mint operator*(mint b) {
+        mint x = (*this) % mod;
+        mint y = (b % mod) % mod;
+        mint z = (x() * y());
+        return z = z % mod;
+    }
+    mint operator^(mint b){
+        mint x = binpow((*this)(), b(), mod);
+        return x;
+    }
+    mint operator/(mint b){
+        mint x = mod_inverse(b(), mod);
+        return x = (*this) * x;
+    }
+    mint operator+=(mint b) { return *this = (*this) + b; }
+    mint operator-=(mint b) { return *this = (*this) - b; }
+    mint operator*=(mint b) { return *this = (*this) * b; }
+    mint operator%=(ll b) { return *this = (*this) % b; }
+    mint operator/=(mint b) { return *this = (*this) / b; }
+};
+typedef vector<mint> vm;
+typedef vector<vector<mint>> vvm;
 ld prec = 1e-7;
 bool iseq(ld v1,ld v2){ return abs(v2 - v1)<= prec; }
 bool islt(ld v1,ld v2){if(iseq(v1,v2)) return 0; return v1<v2;}
@@ -227,52 +274,7 @@ void DSU::union_sets(int a, int b) {
     if (Rank[a] == Rank[b])
         Rank[a]++;
 }
-class mint {
-    ll a;
 
-  public:
-    mint() { this->a = 0; }
-    mint(ll a) { this->a = a; }
-    ll &operator()() { return a; }
-    mint operator=(ll x) {
-        this->a = x;
-        return *this;
-    }
-    mint operator%(ll mod) {
-        mint res = *this;
-        if (res.a > mod)
-            res.a = res.a % mod;
-        return res;
-    }
-    mint operator+(mint b) {
-        mint x = (*this) % mod;
-        mint y = (b) % mod;
-        mint z = (x() + y()) % mod;
-        return z = z % mod;
-    }
-    mint operator-(mint b) {
-        return (((*this) % mod)() - (b % mod)() + mod) % mod;
-    }
-    mint operator*(mint b) {
-        mint x = (*this) % mod;
-        mint y = (b % mod) % mod;
-        mint z = (x() * y());
-        return z = z % mod;
-    }
-    mint operator^(mint b){
-        mint x = binpow((*this)(), b(), mod);
-        return x;
-    }
-    mint operator/(mint b){
-        mint x = mod_inverse(b(), mod);
-        return x = (*this) * x;
-    }
-    mint operator+=(mint b) { return *this = (*this) + b; }
-    mint operator-=(mint b) { return *this = (*this) - b; }
-    mint operator*=(mint b) { return *this = (*this) * b; }
-    mint operator%=(ll b) { return *this = (*this) % b; }
-    mint operator/=(mint b) { return *this = (*this) / b; }
-};
 template<typename T>
 struct Matrix{
     vector<vector<T>> a;
