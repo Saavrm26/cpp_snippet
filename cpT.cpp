@@ -110,6 +110,7 @@ ll mod_divide(ll a, ll b)
     else
         return mod_mult(inv,a);
 }
+//* MODULAR INT
 class mint {
     ll a;
 
@@ -223,6 +224,7 @@ int main(){
         cerr << "Runtime is: " << (clock() * 1.0 / CLOCKS_PER_SEC)*1000 << "ms\n";
     });
 }
+//* chinese remainder thoerem
 ll CRT(vpll divisor_remainder){
 	ll n = divisor_remainder.size();
 	ll m = 1;
@@ -242,6 +244,7 @@ ll CRT(vpll divisor_remainder){
 	}
 	return ans;
 }
+//* DSU
 class DSU {
   public:
     vi Rank, Par;
@@ -274,7 +277,7 @@ void DSU::union_sets(int a, int b) {
     if (Rank[a] == Rank[b])
         Rank[a]++;
 }
-
+//* MATRIX
 template<typename T>
 struct Matrix{
     vector<vector<T>> a;
@@ -322,6 +325,7 @@ struct Matrix{
     }
 
 };
+
 #define root idx
 #define lc 2*idx+1
 #define rc 2*idx+2
@@ -384,6 +388,7 @@ ll segtree::query(int l, int r, int idx, int curr_l, int curr_r) {
         // implement merging
     }
 }
+//* SIEVE
 vector<bool> make_sieve(ll n){
 	//sieve version 1 TC --> nloglogn the impact of the constant factor is high in this version
 	vector<bool> is_prime(n+1, true);
@@ -424,6 +429,7 @@ vector<bool> segmentedSieve(long long L, long long R) {
         isPrime[0] = false;
     return isPrime;
 }
+//* SQRT FLOATING,DECIMAL
 ld SQRT(ll x){
 	if(x==0) return 0;
 	ld l = prec,r = x/2+1,res=0;
@@ -458,7 +464,7 @@ ll SQRTL(ll x){
 	    }
         return l;
 }
-
+//* MO'S ALGO
 void remove(int i);  // TODO: remove value at i from data structure
 void add(int i);     // TODO: add value at i from data structure
 int get_answer();  // TODO: extract the current answer of the data structure
