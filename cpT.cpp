@@ -458,6 +458,46 @@ ll SQRTL(ll x){
 	    }
         return l;
 }
+
+void remove(int i);  // TODO: remove value at i from data structure
+void add(int i);     // TODO: add value at i from data structure
+int get_answer();  // TODO: extract the current answer of the data structure
+int BZ; // TODO: Initialize BZ
+struct query {
+    int l, r, idx;
+    bool operator<(query q2) {
+        if (l / BZ == q2.l / BZ) return r < q2.r;
+        return l / BZ < q2.l / BZ;
+    }
+};
+
+vector<int> mo(vector<query> queries) {
+    vector<int> answers(queries.size());
+    sort(queries.begin(), queries.end());
+    int curr_l = 0;
+    int curr_r = -1;
+    for (query &q : queries) {
+        while (curr_l > q.l) {
+            curr_l--;
+            add(curr_l);
+        }
+        while (curr_r < q.r) {
+            curr_r++;
+            add(curr_r);
+        }
+        while (curr_l < q.l) {
+            remove(curr_l);
+            curr_l++;
+        }
+        while (curr_r > q.r) {
+            remove(curr_r);
+            curr_r--;
+        }
+        answers[q.idx] = get_answer();
+    }
+    return answers;
+}
+
 void solve(){
 
 }
