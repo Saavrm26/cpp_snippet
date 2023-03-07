@@ -278,16 +278,19 @@ void DSU::union_sets(int a, int b) {
         Rank[a]++;
 }
 //* MATRIX
-template<typename T>
-struct Matrix{
+template <typename T> struct Matrix {
     vector<vector<T>> a;
+  public:
+    // constructors
+    Matrix() {}
+    Matrix(vector<vector<T>> _a) { a = _a; }
     // multiplication of matrices
     Matrix<T> operator *(Matrix<T> &vec){
         auto b = vec.a;
         int a_r = a.size(),a_c = a[0].size();
         int b_r = b.size(),b_c = b[0].size();
 
-        Matrix<T> res{vector<vector<T>>(a_r,vector<T>(b_c))};
+        Matrix<T> res(vector<vector<T>>(a_r,vector<T>(b_c)));
         ff(i,0,a_r-1){
             ff(j,0,b_c-1){
                 ff(k,0,b_c-1){
@@ -323,8 +326,18 @@ struct Matrix{
         }
         return res;
     }
-
 };
+
+// in general initialize the res matrix with identity configuration
+template <typename T> void mat_expo(Matrix<T> vec, int cnt, Matrix<T> &res) {
+    while (cnt > 0) {
+        if (cnt & 1) {
+            res = res * vec;
+        }
+        vec = vec * vec;
+        cnt /= 2;
+    }
+}
 
 #define root idx
 #define lc 2*idx+1
