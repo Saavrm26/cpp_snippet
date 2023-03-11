@@ -245,6 +245,8 @@ ll CRT(vpll divisor_remainder){
 	return ans;
 }
 //* DSU
+// * WITH BOTH PATH COMPRESSION AND UNION BY RANK WE GET CONSTANT COMPLEXITY
+// * WITH PATH COMPRESSION ONLY WE GET O(logn) COMPLEXITY PER QUERY
 class DSU {
   public:
     vi Rank, Par;
@@ -293,7 +295,7 @@ template <typename T> struct Matrix {
         Matrix<T> res(vector<vector<T>>(a_r,vector<T>(b_c)));
         ff(i,0,a_r-1){
             ff(j,0,b_c-1){
-                ff(k,0,b_c-1){
+                ff(k,0,b_r-1){
                     res.a[i][j] += a[i][k] * b[k][j];
                 }
             }
